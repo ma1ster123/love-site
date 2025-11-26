@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <title>♥️</title>
 <style>
-  body {
+  html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fbc2eb 100%);
     font-family: 'Arial', sans-serif;
@@ -14,45 +16,60 @@
 
   #hint {
     position: absolute;
-    top: 30px;
+    top: 5%;
     width: 100%;
     text-align: center;
-    font-size: 36px;
+    font-size: 5vw;
     font-weight: bold;
     color: #00ffff;
-    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
     pointer-events: none;
   }
 
-  #heartBtn {
+  #heart {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 150px;
-    height: 150px;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Heart_corazon.svg/1200px-Heart_corazon.svg.png') no-repeat center;
-    background-size: contain;
-    border: none;
+    width: 15vw;
+    height: 15vw;
+    max-width: 200px;
+    max-height: 200px;
     cursor: pointer;
-    filter: drop-shadow(0 0 10px #ff0080) drop-shadow(0 0 20px #ff00ff);
-    transition: transform 0.2s ease, filter 0.2s ease;
   }
 
-  #heartBtn:hover {
-    transform: translate(-50%, -50%) scale(1.2);
-    filter: drop-shadow(0 0 20px #ff0080) drop-shadow(0 0 40px #ff00ff);
+  /* CSS серце */
+  #heart::before,
+  #heart::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    background: #ff00ff;
+    border-radius: 50%;
+    top: 0;
+    left: 25%;
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff0080;
+  }
+
+  #heart::before {
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  #heart::after {
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
   }
 
   .phrase {
     position: absolute;
-    font-size: 24px;
+    font-size: 3vw;
     font-weight: bold;
     color: #ff00ff;
     text-shadow: 0 0 8px #ff00ff, 0 0 16px #ff0080;
     pointer-events: none;
     white-space: nowrap;
-    animation: float 1.5s forwards;
+    animation: float 1s forwards;
   }
 
   @keyframes float {
@@ -64,10 +81,10 @@
 <body>
 
 <div id="hint">Тикай на серце</div>
-<button id="heartBtn"></button>
+<div id="heart"></div>
 
 <script>
-  const heartBtn = document.getElementById('heartBtn');
+  const heart = document.getElementById('heart');
   const hint = document.getElementById('hint');
 
   const phrases = [
@@ -100,7 +117,7 @@
 
   const emojis = ["💖","🌸","✨","🌷","🥰","🌟","💐","💫","🌈","🌹"];
 
-  heartBtn.addEventListener('click', () => {
+  heart.addEventListener('click', () => {
     hint.style.display = 'none';
 
     const phrase = document.createElement('div');
@@ -109,11 +126,10 @@
     const emoji = emojis[Math.floor(Math.random() * emojis.length)];
     phrase.textContent = `${emoji} ${text} ${emoji}`;
 
-    const rect = heartBtn.getBoundingClientRect();
+    const rect = heart.getBoundingClientRect();
     phrase.style.left = `${rect.left + rect.width/2 - 50}px`;
     phrase.style.top = `${rect.top - 20}px`;
 
-    // Рандомний напрямок
     const angle = Math.random() * 2 * Math.PI;
     const distance = 150 + Math.random() * 50;
     const x = Math.cos(angle) * distance + "px";
@@ -125,12 +141,11 @@
 
     setTimeout(() => {
       phrase.remove();
-    }, 1500);
+    }, 1000); 
 
-    // Пульсація серця
-    heartBtn.style.transform = 'translate(-50%, -50%) scale(1.3)';
+    heart.style.transform = 'translate(-50%, -50%) scale(1.3)';
     setTimeout(() => {
-      heartBtn.style.transform = 'translate(-50%, -50%) scale(1)';
+      heart.style.transform = 'translate(-50%, -50%) scale(1)';
     }, 200);
   });
 </script>
